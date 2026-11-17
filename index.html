@@ -5,47 +5,36 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&family=Unbounded:wght@500;700&display=swap">
 <style>
-/* Concept: glowing glass phone. Home = locked hero card + 6 picture tiles. Swipe left = folder shelf. Skins: Neon (default), Dark, Light. */
+/* Concept: glass phone. Home = locked hero card + 6 picture tiles. Swipe left = folder shelf. Skins: Dark (default), Light. */
+/* dark = plain graphite glass, no glow (base theme) */
 :root{
-  --bg:#03030b;
-  --app-bg:#05061a;
-  --bg-image:radial-gradient(60% 40% at 12% 0%,rgba(47,107,255,.24),transparent 70%),radial-gradient(60% 40% at 92% 100%,rgba(155,77,255,.22),transparent 70%);
-  --app-glow:radial-gradient(90% 40% at 50% 0%,rgba(60,110,255,.17),transparent 70%),radial-gradient(80% 36% at 100% 100%,rgba(150,70,255,.17),transparent 70%);
-  --fg:#eaf0ff;
-  --muted:#98a4d9;
-  --edge:#3f7cff;
-  --edge-2:#a560ff;
-  --edge-soft:rgba(63,124,255,.38);
-  --glass:linear-gradient(160deg,#0d1450 0%,#060720 55%,#1a0b46 100%);
-  --glass-flat:#050620;
-  --sheen:rgba(150,190,255,.26);
-  --track:rgba(120,140,255,.2);
-  --chip-bg:rgba(63,124,255,.15);
-  --on-hue:#03030b;
-  --easy:#36e8c4;
-  --medium:#54a0ff;
-  --hard:#b06bff;
-  --impossible:#ff58d4;
-  --ok:#3dff9c;
-  --gold:#ffcf4a;
-  --on-ok:#02150b;
-  --pic-base:#070a2e;
-  --pic-ink:#eaf0ff;
-  --tile-shadow:0 0 16px var(--edge-soft),0 0 2px var(--edge),inset 0 0 0 5px var(--glass-flat),inset 0 0 0 6px var(--edge-soft),inset 0 0 24px rgba(80,90,255,.26);
-  --frame:0 0 34px var(--edge-soft),0 0 3px var(--edge),inset 0 0 44px rgba(63,124,255,.18);
-  --ease:cubic-bezier(.22,1,.36,1);
-  color-scheme:dark;
-}
-/* dark = plain graphite glass, no glow */
-:root[data-skin="dark"]{
-  --bg:#08090d;--app-bg:#0c0d13;--bg-image:none;--app-glow:none;
-  --fg:#e9ebf5;--muted:#9096ad;--edge:#4d526b;--edge-2:#6b718c;--edge-soft:rgba(98,106,140,.45);
-  --glass:linear-gradient(160deg,#1f2232 0%,#10111a 100%);--glass-flat:#0d0e15;--sheen:rgba(255,255,255,.1);
-  --track:rgba(130,138,175,.22);--chip-bg:rgba(130,138,175,.14);--on-hue:#0a0b10;
-  --easy:#62dcc0;--medium:#76acff;--hard:#b895ff;--impossible:#ff80c9;
-  --ok:#43e08f;--gold:#f0c04a;--on-ok:#04150b;--pic-base:#161824;--pic-ink:#e9ebf5;
+  --bg:#08090d;
+  --app-bg:#0c0d13;
+  --bg-image:none;
+  --app-glow:none;
+  --fg:#e9ebf5;
+  --muted:#9096ad;
+  --edge:#4d526b;
+  --edge-2:#6b718c;
+  --edge-soft:rgba(98,106,140,.45);
+  --glass:linear-gradient(160deg,#1f2232 0%,#10111a 100%);
+  --glass-flat:#0d0e15;
+  --sheen:rgba(255,255,255,.1);
+  --track:rgba(130,138,175,.22);
+  --chip-bg:rgba(130,138,175,.14);
+  --on-hue:#0a0b10;
+  --easy:#62dcc0;
+  --medium:#76acff;
+  --hard:#b895ff;
+  --impossible:#ff80c9;
+  --ok:#43e08f;
+  --gold:#f0c04a;
+  --on-ok:#04150b;
+  --pic-base:#161824;
+  --pic-ink:#e9ebf5;
   --tile-shadow:0 6px 16px rgba(0,0,0,.55),0 0 0 1px var(--edge-soft),inset 0 0 0 5px var(--glass-flat),inset 0 0 0 6px var(--edge-soft);
   --frame:0 16px 44px rgba(0,0,0,.6),0 0 0 1px var(--edge-soft);
+  --ease:cubic-bezier(.22,1,.36,1);
   color-scheme:dark;
 }
 /* light = soft pressed glass from the second reference */
@@ -87,7 +76,7 @@ h1,h2,h3,p{margin:0}
   border-radius:calc(38px + var(--bezel,0px));transition:padding .4s var(--ease)}
 .app{
   position:relative;width:100%;height:100%;
-  border-radius:38px;overflow:hidden;background:var(--app-glow),var(--app-bg);box-shadow:var(--frame);
+  border-radius:38px;overflow:hidden;overflow:clip;background:var(--app-glow),var(--app-bg);box-shadow:var(--frame);
   isolation:isolate;
 }
 .glass::after,.app::after{
@@ -343,7 +332,7 @@ h1,h2,h3,p{margin:0}
 .trk[aria-checked="true"] .n{color:var(--ok)}
 .sec{display:flex;flex-direction:column;gap:10px}
 .sec h3{font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:800}
-.skins{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.skins{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
 .skin{display:flex;flex-direction:column;align-items:center;gap:8px;padding:8px 8px 10px;border-radius:16px;border:1.5px solid var(--edge-soft);background:var(--chip-bg);font-size:12.5px;font-weight:800;transition:border-color .2s,box-shadow .25s,transform .2s var(--ease)}
 .skin:active{transform:scale(.95)}
 .skin[aria-checked="true"]{border-color:var(--ok);box-shadow:0 0 18px color-mix(in srgb,var(--ok) 35%,transparent)}
@@ -488,6 +477,46 @@ button.ptschip:active{transform:scale(.94)}
 .pbar b{transition:width .9s var(--ease)}
 ::view-transition-old(root),::view-transition-new(root){animation-duration:.55s;animation-timing-function:ease}
 @media (prefers-reduced-motion:reduce){*,*::before,*::after{animation-duration:.01ms!important;animation-iteration-count:1!important;transition-duration:.01ms!important}}
+
+/* ---------- profile: avatar, login, profile sheet ---------- */
+.av{--s:40px;width:var(--s);height:var(--s);border-radius:50%;flex:none;display:grid;place-items:center;overflow:hidden;position:relative;padding:0;
+  font-family:'Unbounded','Manrope',system-ui,sans-serif;font-weight:700;font-size:calc(var(--s) * .42);line-height:1;color:#0a0b10;box-shadow:0 0 0 2px var(--edge-soft)}
+.av img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+.av-xl{--s:92px}
+.avbtn{transition:transform .3s var(--spring),box-shadow .25s}
+.avbtn:active{transform:scale(.92)}
+.pf-file{position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;overflow:hidden}
+.pf-form{width:100%;display:flex;flex-direction:column;gap:12px;text-align:left}
+.pf-field{display:flex;flex-direction:column;gap:6px}
+.pf-field label{font-size:10.5px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--muted)}
+.pf-in{width:100%;padding:13px 14px;border-radius:14px;border:1.5px solid var(--edge-soft);background:var(--chip-bg);color:var(--fg);font:inherit;font-size:16px;font-weight:600;outline:none;-webkit-appearance:none;appearance:none}
+.pf-in:focus{border-color:var(--edge-2)}
+.pf-in::placeholder{color:var(--muted);font-weight:500}
+.pf-msg{min-height:18px;margin:0;font-size:13px;font-weight:700;line-height:1.4;color:#ff6b7a;overflow-wrap:anywhere}
+.pf-msg[data-ok="1"]{color:var(--ok)}
+:root[data-skin="light"] .pf-msg{color:#c2263d}
+:root[data-skin="light"] .pf-msg[data-ok="1"]{color:var(--ok)}
+.pf-btn{width:100%;padding:14px 16px;border-radius:14px;font-size:14.5px;font-weight:800;background:var(--ok);color:var(--on-ok);transition:transform .2s var(--ease),opacity .2s}
+.pf-btn:active{transform:scale(.97)}
+.pf-btn:disabled{opacity:.45;cursor:not-allowed}
+.pf-btn.alt{background:var(--chip-bg);color:var(--fg);border:1.5px solid var(--edge-soft)}
+.pf-btn.danger{background:#e5484d;color:#fff}
+.pf-btn.sm{width:auto;padding:9px 14px;font-size:13px}
+.pf-link{align-self:center;padding:6px 10px;font-size:13px;font-weight:700;color:var(--muted);text-decoration:underline}
+.pf-photo{display:flex;gap:8px;justify-content:center;flex-wrap:wrap}
+.pf-cols{display:flex;gap:10px;flex-wrap:wrap;justify-content:center}
+.pf-col{width:30px;height:30px;border-radius:50%;box-shadow:0 0 0 2px var(--edge-soft);transition:transform .25s var(--spring),box-shadow .2s}
+.pf-col[aria-checked="true"]{box-shadow:0 0 0 3px var(--app-bg),0 0 0 5px var(--fg);transform:scale(1.08)}
+.pf-hero{display:flex;flex-direction:column;align-items:center;gap:14px}
+.pf-note{margin:0;font-size:12.5px;line-height:1.5;color:var(--muted)}
+.auth{position:absolute;inset:0;z-index:34;display:flex;flex-direction:column;align-items:center;overflow-y:auto;overscroll-behavior:contain;
+  padding:28px max(22px,env(safe-area-inset-left,0px)) 28px;background:var(--app-glow),var(--app-bg)}
+.auth-in{width:100%;max-width:340px;margin-block:auto;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center}
+.auth h2{font-family:'Unbounded','Manrope',system-ui,sans-serif;font-weight:700;font-size:20px;line-height:1.25;overflow-wrap:anywhere;text-wrap:balance}
+.auth-sub{margin-top:6px;font-size:13.5px;line-height:1.5;color:var(--muted)}
+.auth[data-mode="login"] .pf-create{display:none}
+.auth[data-mode="create"] .pf-login{display:none}
+.pf-create.pf-photo-row{display:flex;flex-direction:column;align-items:center;gap:14px}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs id="sprite"></defs></svg>
@@ -503,6 +532,7 @@ button.ptschip:active{transform:scale(.94)}
           <header class="bar">
             <div><p class="eyebrow" id="eyeBest">Best of the best</p><h1>LifeQuest</h1></div>
             <div class="bar-r">
+              <button class="av avbtn" id="avBtn" type="button" aria-label="Open profile"></button>
               <button class="ptschip" type="button" aria-label="Open shop"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.6" aria-hidden="true"><circle cx="8" cy="8" r="6.4" fill="currentColor" fill-opacity=".22"/><circle cx="8" cy="8" r="3"/></svg><b class="ptsv">0</b></button>
               <button class="gear" type="button" aria-label="Settings"><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><path d="M2 4h12M2 8h12M2 12h12"/><circle cx="5.5" cy="4" r="1.7" fill="var(--app-bg)"/><circle cx="10.5" cy="8" r="1.7" fill="var(--app-bg)"/><circle cx="6.5" cy="12" r="1.7" fill="var(--app-bg)"/></svg></button>
             </div>
@@ -585,6 +615,65 @@ button.ptschip:active{transform:scale(.94)}
           </div>
         </div>
         <div class="mrow"><button type="button" id="mCancel">Cancel</button><button type="button" id="mOk">Confirm</button></div>
+      </div>
+    </div>
+
+    <section class="auth" id="auth" data-mode="create" aria-label="Profile login" hidden>
+      <div class="auth-in">
+        <p class="eyebrow">LifeQuest</p>
+        <div class="av av-xl" id="authAv"></div>
+        <div>
+          <h2 id="authTitle">Create your profile</h2>
+          <p class="auth-sub" id="authSub"></p>
+        </div>
+        <form class="pf-form" id="authForm" novalidate>
+          <div class="pf-create pf-photo-row">
+            <div class="pf-photo"><button class="pf-btn alt sm" id="authPhoto" type="button">Add photo</button><button class="pf-btn alt sm" id="authPhotoX" type="button" hidden>Remove photo</button></div>
+            <input class="pf-file" id="authFile" type="file" accept="image/*" tabindex="-1" aria-hidden="true">
+            <div class="pf-cols" id="authCols" role="radiogroup" aria-label="Avatar colour"></div>
+          </div>
+          <div class="pf-field pf-create"><label for="authNick">Nickname</label><input class="pf-in" id="authNick" type="text" maxlength="16" autocomplete="nickname" spellcheck="false" placeholder="2 to 16 characters"></div>
+          <div class="pf-field"><label for="authPass">Password</label><input class="pf-in" id="authPass" type="password" autocomplete="current-password" placeholder="Your password"></div>
+          <div class="pf-field pf-create"><label for="authPass2">Repeat password</label><input class="pf-in" id="authPass2" type="password" autocomplete="new-password" placeholder="Type it again"></div>
+          <div class="row"><div class="lab">Stay logged in<small>On this device only</small></div><button class="switch" id="authStay" type="button" role="switch" aria-checked="false" aria-label="Stay logged in"></button></div>
+          <p class="pf-msg" id="authMsg" role="alert"></p>
+          <button class="pf-btn" id="authGo" type="submit">Create profile</button>
+          <button class="pf-link pf-login" id="authForgot" type="button">Forgot password?</button>
+        </form>
+      </div>
+    </section>
+
+    <div class="sheet" id="profSheet" data-open="0" aria-hidden="true">
+      <div class="scrim" id="profScrim"></div>
+      <div class="panel" role="dialog" aria-modal="true" aria-labelledby="profTitle">
+        <div class="p-head"><h2 id="profTitle">Profile</h2><button class="p-close" id="profClose" type="button">Close</button></div>
+        <div class="pf-hero">
+          <div class="av av-xl" id="profAv"></div>
+          <div class="pf-photo"><button class="pf-btn alt sm" id="profPhoto" type="button">Add photo</button><button class="pf-btn alt sm" id="profPhotoX" type="button" hidden>Remove photo</button></div>
+          <input class="pf-file" id="profFile" type="file" accept="image/*" tabindex="-1" aria-hidden="true">
+          <div class="pf-cols" id="profCols" role="radiogroup" aria-label="Avatar colour"></div>
+        </div>
+        <div class="sec">
+          <h3>Nickname</h3>
+          <div class="pf-field"><input class="pf-in" id="profNick" type="text" maxlength="16" autocomplete="off" spellcheck="false" aria-label="Nickname"><p class="pf-msg" id="profNickMsg" role="status"></p></div>
+        </div>
+        <div class="sec">
+          <h3>Password</h3>
+          <form class="pf-form" id="profPassForm" novalidate>
+            <input class="pf-in" id="profPassCur" type="password" autocomplete="current-password" placeholder="Current password" aria-label="Current password">
+            <input class="pf-in" id="profPassNew" type="password" autocomplete="new-password" placeholder="New password" aria-label="New password">
+            <input class="pf-in" id="profPassNew2" type="password" autocomplete="new-password" placeholder="Repeat new password" aria-label="Repeat new password">
+            <p class="pf-msg" id="profPassMsg" role="status"></p>
+            <button class="pf-btn alt" type="submit">Change password</button>
+          </form>
+        </div>
+        <div class="sec">
+          <h3>Login</h3>
+          <div class="row"><div class="lab">Stay logged in<small>On this device only</small></div><button class="switch" id="profStay" type="button" role="switch" aria-checked="false" aria-label="Stay logged in"></button></div>
+          <p class="pf-note">Your profile saves on every change and stays when the app is updated. It lives in this browser, so it does not move to other devices.</p>
+          <button class="pf-btn alt" id="profLogout" type="button">Log out</button>
+          <button class="reset" id="profDelete" type="button">Delete profile</button>
+        </div>
       </div>
     </div>
 
@@ -685,9 +774,26 @@ window.VD = (function(){
     }
     return o + '</g>';
   }
-  function tulip(x, y, c){
-    return L('M' + x + ' ' + y + ' V' + (y - 66), '#5f9f58', 3.4) + P('M' + x + ' ' + (y - 14) + ' q-22 -4 -24 -30 q20 4 24 30z', '#78b86c') +
-      P('M' + (x - 13) + ' ' + (y - 68) + ' Q' + (x - 15) + ' ' + (y - 98) + ' ' + x + ' ' + (y - 92) + ' Q' + (x + 15) + ' ' + (y - 98) + ' ' + (x + 13) + ' ' + (y - 68) + ' Q' + x + ' ' + (y - 58) + ' ' + (x - 13) + ' ' + (y - 68) + 'z', c);
+  function tulip(x, y, c, lean, s){
+    lean = lean || 0; s = s || 1;
+    var bx = x + lean * s, by = y - 72 * s;
+    function q(dx, dy){ return n(bx + dx * s) + ' ' + n(by + dy * s); }
+    function g(dx, dy){ return n(x + dx * s) + ' ' + n(y + dy * s); }
+    var o = L('M' + g(0, 0) + ' Q' + g(lean * 0.2, -38) + ' ' + q(0, 4), '#4f8f4a', 3.2 * s);
+    o += P('M' + g(0, -4) + ' C' + g(-30, -16) + ' ' + g(-30, -52) + ' ' + g(-12, -66) + ' C' + g(-14, -42) + ' ' + g(-8, -20) + ' ' + g(0, -4) + 'z', '#6fb166');
+    o += P('M' + g(0, -4) + ' C' + g(24, -14) + ' ' + g(28, -42) + ' ' + g(14, -54) + ' C' + g(14, -36) + ' ' + g(8, -18) + ' ' + g(0, -4) + 'z', '#5c9f55');
+    o += P('M' + g(-12, -66) + ' C' + g(-14, -42) + ' ' + g(-8, -20) + ' ' + g(0, -4) + ' C' + g(-8, -22) + ' ' + g(-8, -46) + ' ' + g(-12, -66) + 'z', '#000', 0.1);
+    o += P('M' + q(-9, -2) + ' C' + q(-11, -22) + ' ' + q(-4, -36) + ' ' + q(0, -43) + ' C' + q(4, -36) + ' ' + q(11, -22) + ' ' + q(9, -2) + 'z', c);
+    o += P('M' + q(-9, -2) + ' C' + q(-11, -22) + ' ' + q(-4, -36) + ' ' + q(0, -43) + ' C' + q(4, -36) + ' ' + q(11, -22) + ' ' + q(9, -2) + 'z', '#000', 0.16);
+    o += P('M' + q(-14, -4) + ' C' + q(-17, -24) + ' ' + q(-10, -36) + ' ' + q(-5, -39) + ' C' + q(-2, -24) + ' ' + q(0, -10) + ' ' + q(2, 3) + ' C' + q(-5, 7) + ' ' + q(-12, 4) + ' ' + q(-14, -4) + 'z', c);
+    o += P('M' + q(14, -4) + ' C' + q(17, -24) + ' ' + q(10, -36) + ' ' + q(5, -39) + ' C' + q(2, -24) + ' ' + q(0, -10) + ' ' + q(-2, 3) + ' C' + q(5, 7) + ' ' + q(12, 4) + ' ' + q(14, -4) + 'z', c);
+    o += P('M' + q(14, -4) + ' C' + q(17, -24) + ' ' + q(10, -36) + ' ' + q(5, -39) + ' C' + q(2, -24) + ' ' + q(0, -10) + ' ' + q(-2, 3) + ' C' + q(5, 7) + ' ' + q(12, 4) + ' ' + q(14, -4) + 'z', '#000', 0.07);
+    o += L('M' + q(-9, -8) + ' Q' + q(-11, -22) + ' ' + q(-7, -33), '#ffffff', 2 * s, 0.45);
+    return o;
+  }
+  function tuft(x, y, s){
+    s = s || 1;
+    return L('M' + x + ' ' + y + ' q-4 -' + n(14 * s) + ' -' + n(9 * s) + ' -' + n(22 * s), '#7fb86d', 2.6) + L('M' + x + ' ' + y + ' q1 -' + n(18 * s) + ' ' + n(2 * s) + ' -' + n(28 * s), '#6aa95d', 2.8) + L('M' + x + ' ' + y + ' q5 -' + n(12 * s) + ' ' + n(11 * s) + ' -' + n(20 * s), '#7fb86d', 2.6);
   }
   function easter(){
     var o = R(0, 0, 400, 800, '#fff3da') + R(0, 0, 400, 300, '#ffe6ef') + R(0, 0, 400, 150, '#fbd9e6');
@@ -699,9 +805,10 @@ window.VD = (function(){
     }
     o += cloud(70, 210, '#ffffff', 1) + cloud(250, 270, '#ffffff', 0.8);
     o += P('M0 520 Q120 430 260 500 T400 470 V800 H0z', '#cfe8b4') + P('M0 604 Q150 520 300 592 T400 560 V800 H0z', '#b4dc9c') + P('M0 696 Q120 644 260 694 T400 672 V800 H0z', '#98cc83');
-    o += tulip(36, 770, '#f2789f') + tulip(66, 782, '#ffc65c') + tulip(352, 776, '#f2789f') + tulip(326, 786, '#9ec4f5');
+    o += tuft(30, 790, 1) + tuft(84, 796, 0.8) + tuft(336, 796, 0.9) + tuft(378, 788, 1.1);
+    o += tulip(36, 786, '#f2789f', -4, 1) + tulip(70, 796, '#ffc65c', 6, 0.88) + tulip(360, 790, '#f2789f', 4, 0.95) + tulip(330, 800, '#9ec4f5', -6, 0.82);
     o += egg(86, 632, 1.1, '#f2a0c8', 'zig', -12, '#fff3da') + egg(180, 700, 1, '#ffd37a', 'stripe', 8, '#ee7f5a') + egg(300, 640, 1.15, '#9fd8c3', 'dots', 14, '#ffffff');
-    o += egg(236, 596, 0.8, '#a8c8f0', 'zig', -6, '#ffffff') + egg(352, 704, 0.9, '#ffb08a', 'dots', -18, '#fff3da') + egg(122, 742, 0.85, '#fff0b8', 'stripe', 20, '#e58a9a');
+    o += egg(236, 596, 0.8, '#a8c8f0', 'zig', -6, '#ffffff') + egg(276, 726, 0.9, '#ffb08a', 'dots', -18, '#fff3da') + egg(122, 742, 0.85, '#fff0b8', 'stripe', 20, '#e58a9a');
     return svg(o);
   }
 
@@ -779,6 +886,120 @@ window.VD = (function(){
     return svg(o);
   }
 
+  /* ---------- more scenes ---------- */
+  function fir(x, y, s, c){
+    return R(x - 2 * s, y, 4 * s, 10 * s, '#3a2a28') + P('M' + n(x) + ' ' + n(y - 58 * s) + ' L' + n(x + 20 * s) + ' ' + n(y - 16 * s) + ' L' + n(x - 20 * s) + ' ' + n(y - 16 * s) + 'z', c) +
+      P('M' + n(x) + ' ' + n(y - 40 * s) + ' L' + n(x + 26 * s) + ' ' + n(y + 2 * s) + ' L' + n(x - 26 * s) + ' ' + n(y + 2 * s) + 'z', c);
+  }
+  function sceneLake(){
+    var r = rng(52), o = R(0, 0, 400, 800, '#ffe3d0') + R(0, 0, 400, 320, '#f8cfc4') + R(0, 0, 400, 170, '#e9bfd0');
+    o += C(205, 372, 96, '#ffd9a0', 0.2) + C(205, 372, 66, '#ffd9a0', 0.4) + C(205, 372, 44, '#fff0cc');
+    o += cloud(40, 150, '#fff3ea', 1) + cloud(250, 220, '#fff3ea', 0.75);
+    o += L('M90 90 q7 -9 14 0 q7 -9 14 0', '#8a6a7a', 2.2) + L('M150 126 q5 -7 10 0 q5 -7 10 0', '#8a6a7a', 2);
+    o += P('M0 470 L70 388 L130 444 L214 330 L294 432 L352 384 L400 430 V800 H0z', '#cfa9c6');
+    o += P('M214 330 L192 364 L205 357 L214 368 L224 356 L238 366z', '#fff6ee');
+    o += P('M70 388 L56 410 L68 404 L76 412 L84 402z', '#fff6ee');
+    o += P('M0 530 L90 446 L172 516 L252 428 L340 506 L400 474 V800 H0z', '#a98bb5');
+    o += P('M252 428 L236 452 L247 447 L254 456 L262 446 L270 454z', '#f6eaf0');
+    o += R(0, 566, 400, 234, '#86b3cb') + R(0, 566, 400, 26, '#9cc3d6');
+    o += P('M0 566 L90 650 L172 584 L252 676 L340 596 L400 628 V566z', '#a98bb5', 0.28);
+    o += E(205, 600, 60, 5, '#fff0cc', 0, 0.55) + E(205, 622, 38, 4, '#fff0cc', 0, 0.4) + E(205, 646, 22, 3, '#fff0cc', 0, 0.3);
+    o += L('M30 610 h40 M300 640 h50 M60 676 h36 M250 700 h44', '#ffffff', 2.2, 0.5);
+    o += P('M0 676 Q90 640 200 676 T400 660 V800 H0z', '#3f5a6e') + P('M0 740 Q120 706 250 742 T400 726 V800 H0z', '#2c4252');
+    o += fir(46, 712, 1.2, '#2c5a4c') + fir(88, 730, 0.9, '#264d40') + fir(338, 700, 1.1, '#2c5a4c') + fir(376, 724, 1.3, '#264d40') + fir(14, 760, 0.8, '#264d40');
+    o += E(250, 770, 14, 6, '#5a5a66') + E(268, 774, 9, 4, '#6b6b78');
+    return svg(o);
+  }
+
+  function ringedPlanet(cx, cy, r, base, bands, ring){
+    var o = '<g transform="rotate(-20 ' + cx + ' ' + cy + ')">';
+    o += '<ellipse cx="' + cx + '" cy="' + cy + '" rx="' + n(r * 1.75) + '" ry="' + n(r * 0.36) + '" fill="none" stroke="' + ring + '" stroke-width="' + n(r * 0.16) + '" opacity="0.7"/>';
+    o += C(cx, cy, r, base);
+    [-0.55, -0.2, 0.2, 0.55].forEach(function(f, i){ var dy = f * r, hw = Math.sqrt(Math.max(0, r * r - dy * dy)) * 0.97; o += E(cx, cy + dy, hw, r * 0.09, bands[i % bands.length], 0, 0.6); });
+    o += '<path d="M' + n(cx - r * 1.75) + ' ' + cy + ' A' + n(r * 1.75) + ' ' + n(r * 0.36) + ' 0 0 0 ' + n(cx + r * 1.75) + ' ' + cy + '" fill="none" stroke="' + ring + '" stroke-width="' + n(r * 0.16) + '" opacity="0.9"/>';
+    return o + '</g>';
+  }
+  function sceneSpace(){
+    var r = rng(63), o = R(0, 0, 400, 800, '#0b0d2b') + R(0, 0, 400, 420, '#12113a');
+    o += C(310, 210, 130, '#6d3fa8', 0.07) + C(310, 210, 90, '#6d3fa8', 0.07) + C(90, 360, 100, '#2f5bd1', 0.06) + C(90, 360, 60, '#2f5bd1', 0.06) + C(200, 120, 90, '#c0408f', 0.04);
+    for (var i = 0; i < 70; i++) o += C(r() * 400, r() * 640, 0.7 + r() * 1.5, '#ffffff', 0.4 + r() * 0.6);
+    for (var k = 0; k < 6; k++) o += star5(20 + r() * 360, 30 + r() * 500, 3 + r() * 3, '#fff6c8');
+    o += ringedPlanet(280, 270, 58, '#e7915b', ['#c9703f', '#f2b078'], '#f5d9a8');
+    o += C(88, 190, 24, '#cfd2ec') + C(80, 182, 5, '#aeb2d4') + C(98, 198, 7, '#aeb2d4') + C(94, 178, 3, '#aeb2d4');
+    o += C(60, 430, 12, '#5aa0e0') + C(56, 426, 5, '#8cc4f2', 0.8);
+    o += L('M330 70 L250 112', '#ffffff', 2.4, 0.7) + L('M330 70 L300 86', '#ffffff', 3.4, 0.9);
+    o += P('M0 690 Q120 640 260 680 T400 660 V800 H0z', '#2c2e62') + P('M0 748 Q150 708 300 744 T400 728 V800 H0z', '#1b1c40');
+    o += E(80, 712, 26, 6, '#1b1c40') + E(220, 700, 18, 4, '#212350') + E(330, 740, 24, 5, '#14153a') + E(150, 770, 20, 5, '#14153a');
+    o += R(300, 640, 4, 40, '#c9cbe6') + P('M304 640 L326 650 L304 660z', '#e7915b') + R(296, 676, 12, 4, '#8f92b8');
+    return svg(o);
+  }
+
+  function cactus(x, y, s, c){
+    var w = 14 * s;
+    return L('M' + x + ' ' + y + ' V' + n(y - 100 * s), c, w) + L('M' + x + ' ' + n(y - 40 * s) + ' H' + n(x - 22 * s) + ' V' + n(y - 66 * s), c, w * 0.7) + L('M' + x + ' ' + n(y - 58 * s) + ' H' + n(x + 22 * s) + ' V' + n(y - 84 * s), c, w * 0.7) +
+      L('M' + n(x - 3 * s) + ' ' + n(y - 4 * s) + ' V' + n(y - 92 * s), '#ffffff', 1.6, 0.25);
+  }
+  function sceneDesert(){
+    var r = rng(74), o = R(0, 0, 400, 800, '#ffd9a8') + R(0, 0, 400, 340, '#fbc08a') + R(0, 0, 400, 180, '#f4a77a');
+    o += C(290, 330, 100, '#ffe9b8', 0.22) + C(290, 330, 70, '#ffe9b8', 0.4) + C(290, 330, 48, '#fff3d0');
+    o += E(80, 180, 70, 6, '#ffe8c8', 0, 0.6) + E(120, 198, 50, 5, '#ffe8c8', 0, 0.5) + E(300, 120, 60, 5, '#ffe8c8', 0, 0.55);
+    o += L('M60 260 q6 -8 12 0 q6 -8 12 0', '#7a4a3a', 2.2) + L('M110 232 q5 -7 10 0 q5 -7 10 0', '#7a4a3a', 2);
+    o += P('M0 520 Q120 452 240 510 T400 480 V800 H0z', '#eaa56e') + P('M0 600 Q140 534 280 600 T400 572 V800 H0z', '#d98a58') + P('M0 700 Q120 650 260 700 T400 680 V800 H0z', '#b96a42');
+    o += L('M30 560 q60 -14 120 0 M220 580 q50 -10 110 4', '#f7c99c', 2.4, 0.6) + L('M40 650 q50 -10 90 0 M250 640 q50 -8 100 4', '#eaa56e', 2.4, 0.6);
+    o += cactus(96, 742, 1.15, '#4f8a52') + cactus(330, 716, 0.8, '#5c9a5c') + cactus(220, 760, 0.55, '#4f8a52');
+    o += E(190, 784, 26, 7, '#9a5434') + E(30, 776, 18, 5, '#9a5434') + E(366, 768, 22, 6, '#9a5434');
+    o += P('M160 790 l4 -14 l6 8 l6 -10 l4 16z', '#8a8a58', 0.9);
+    return svg(o);
+  }
+
+  function fish(x, y, s, c, flip){
+    var f = flip ? -1 : 1;
+    return '<g transform="translate(' + x + ' ' + y + ') scale(' + (f * s) + ' ' + s + ')">' + E(0, 0, 22, 13, c) + P('M-16 0 L-34 -12 L-34 12z', c) + P('M-2 -12 Q6 -24 12 -10z', c, 0.8) + C(11, -3, 3, '#ffffff') + C(12, -3, 1.5, '#1a2a3a') + L('M2 -9 Q-2 0 2 9', '#ffffff', 2, 0.4) + '</g>';
+  }
+  function weed(x, y, h, c){
+    return L('M' + x + ' ' + y + ' q-14 -' + n(h * 0.25) + ' 0 -' + n(h * 0.5) + ' q14 -' + n(h * 0.25) + ' 0 -' + n(h), c, 7);
+  }
+  function coral(x, y, s, c){
+    var o = L('M' + x + ' ' + y + ' V' + n(y - 60 * s), c, 9 * s) + L('M' + x + ' ' + n(y - 24 * s) + ' L' + n(x - 22 * s) + ' ' + n(y - 50 * s), c, 8 * s) + L('M' + x + ' ' + n(y - 36 * s) + ' L' + n(x + 22 * s) + ' ' + n(y - 66 * s), c, 8 * s) + L('M' + x + ' ' + n(y - 60 * s) + ' L' + n(x - 8 * s) + ' ' + n(y - 82 * s), c, 7 * s);
+    return o + C(x - 22 * s, y - 50 * s, 5 * s, c) + C(x + 22 * s, y - 66 * s, 5 * s, c) + C(x - 8 * s, y - 82 * s, 4.5 * s, c) + C(x, y - 60 * s, 5 * s, c);
+  }
+  function sceneReef(){
+    var r = rng(85), o = R(0, 0, 400, 800, '#0f5c7a') + R(0, 0, 400, 420, '#1b7fa0') + R(0, 0, 400, 190, '#3aa0bf');
+    o += P('M110 0 L180 0 L300 800 L150 800z', '#ffffff', 0.07) + P('M230 0 L270 0 L400 700 L330 800z', '#ffffff', 0.06) + P('M20 0 L50 0 L90 800 L10 800z', '#ffffff', 0.05);
+    for (var i = 0; i < 16; i++) o += '<circle cx="' + n(20 + r() * 360) + '" cy="' + n(60 + r() * 640) + '" r="' + n(2 + r() * 5) + '" fill="none" stroke="#ffffff" stroke-width="1.4" opacity="' + n(0.25 + r() * 0.3) + '"/>';
+    o += fish(100, 200, 1, '#ffb347', false) + fish(290, 310, 0.8, '#ff7a8a', true) + fish(180, 430, 0.65, '#ffd84a', false) + fish(330, 480, 0.55, '#7fe0d0', true) + fish(70, 520, 0.5, '#ffb347', true);
+    o += weed(40, 740, 200, '#2f9a6a') + weed(70, 750, 140, '#3fb07a') + weed(350, 740, 190, '#2f9a6a') + weed(322, 752, 120, '#3fb07a');
+    o += P('M0 706 Q120 676 260 706 T400 696 V800 H0z', '#e9d3a0') + P('M0 760 Q150 736 300 762 T400 750 V800 H0z', '#d6bc84');
+    o += coral(130, 724, 1.1, '#ff6f91') + coral(204, 742, 0.8, '#ff9a5c') + coral(262, 722, 1.2, '#c05cd6') + coral(160, 760, 0.6, '#ffd166');
+    o += E(300, 764, 20, 10, '#7a8a96') + E(318, 768, 12, 7, '#8d9ba6');
+    o += star5(214, 776, 12, '#ff8c6a') + star5(100, 780, 8, '#ffb08a');
+    return svg(o);
+  }
+
+  function sceneCity(){
+    var r = rng(96), o = R(0, 0, 400, 800, '#1a1038') + R(0, 0, 400, 430, '#241552') + R(0, 0, 400, 220, '#2d1a66');
+    for (var i = 0; i < 40; i++) o += C(r() * 400, r() * 400, 0.7 + r() * 1.3, '#ffffff', 0.4 + r() * 0.5);
+    o += C(300, 150, 70, '#fff1c9', 0.1) + C(300, 150, 56, '#fff1c9', 0.14) + C(300, 150, 44, '#fff1c9');
+    o += C(288, 142, 6, '#e8d6a6') + C(312, 162, 8, '#e8d6a6') + C(300, 126, 4, '#e8d6a6');
+    function row(base, hmin, hmax, wmin, wmax, c, lit, winc){
+      var x = -10, s = '';
+      while (x < 400){
+        var w = wmin + r() * (wmax - wmin), h = hmin + r() * (hmax - hmin), top = base - h;
+        s += R(n(x), n(top), n(w), n(h + 2), c);
+        if (r() < 0.3) s += L('M' + n(x + w / 2) + ' ' + n(top) + ' V' + n(top - 18), c, 2.4);
+        for (var yy = top + 12; yy < base - 10; yy += 18) for (var xx = x + 8; xx < x + w - 10; xx += 14) if (r() < lit) s += R(n(xx), n(yy), 6, 9, winc, 0.9);
+        x += w + 2;
+      }
+      return s;
+    }
+    o += row(690, 90, 300, 34, 62, '#3a2578', 0.22, '#c7b0ff');
+    o += row(720, 60, 210, 36, 70, '#1d1248', 0.38, '#ffd36b');
+    o += R(0, 716, 400, 84, '#120a2a') + R(0, 716, 400, 4, '#2d1a66');
+    for (var d = 0; d < 7; d++) o += R(14 + d * 58, 764, 30, 5, '#f0c75e', 0.55);
+    o += E(100, 748, 40, 5, '#ffd36b', 0, 0.12) + E(300, 748, 40, 5, '#ffd36b', 0, 0.12);
+    return svg(o);
+  }
+
   var SCENES = [
     { id: 'none', name: 'None', price: 0, blurb: 'Plain background.' },
     { id: 'summer', name: 'Beach Day', price: 160, blurb: 'Sun, sea, a small boat and a striped umbrella.', draw: summer },
@@ -786,7 +1007,12 @@ window.VD = (function(){
     { id: 'autumn', name: 'Harvest Hills', price: 160, blurb: 'Rust hills, a leafy tree and pumpkins.', draw: autumn },
     { id: 'winter', name: 'Snow Cabin', price: 160, blurb: 'A night sky over a snowy cabin and pines.', draw: winter },
     { id: 'halloween', name: 'Moonlit Patch', price: 160, blurb: 'Bats, a bare tree and carved pumpkins.', draw: halloween },
-    { id: 'sakura', name: 'Blossom Branch', price: 160, blurb: 'Cherry blossoms below a red sun.', draw: sakura }
+    { id: 'sakura', name: 'Blossom Branch', price: 160, blurb: 'Cherry blossoms below a red sun.', draw: sakura },
+    { id: 'lake', name: 'Mountain Lake', price: 160, blurb: 'A calm lake at sunrise below snowy peaks.', draw: sceneLake },
+    { id: 'space', name: 'Deep Space', price: 160, blurb: 'A ringed planet, a small moon and a field of stars.', draw: sceneSpace },
+    { id: 'desert', name: 'Desert Dunes', price: 160, blurb: 'Warm dunes and cacti under a low sun.', draw: sceneDesert },
+    { id: 'reef', name: 'Coral Reef', price: 160, blurb: 'Fish, coral and swaying seaweed in clear water.', draw: sceneReef },
+    { id: 'city', name: 'City Lights', price: 160, blurb: 'A skyline at night with lit windows and a full moon.', draw: sceneCity }
   ];
 
   var GLYPHS = {
@@ -802,7 +1028,10 @@ window.VD = (function(){
     star: '<path d="M32 8l7 16 17 2-13 12 4 17-15-9-15 9 4-17L8 26l17-2z"/>',
     bolt: '<path d="M36 6L14 36h14l-4 22 26-34H36z"/>',
     smile: '<circle cx="32" cy="32" r="22"/><path d="M22 38c4 6 16 6 20 0M24 26v2M40 26v2"/>',
-    umbrella: '<path d="M8 32C8 18 20 10 32 10s24 8 24 22zM8 32c4-4 8-4 12 0 4-4 8-4 12 0 4-4 8-4 12 0 4-4 8-4 12 0M32 32v20a5 5 0 0 1-10 0"/>'
+    umbrella: '<path d="M8 32C8 18 20 10 32 10s24 8 24 22zM8 32c4-4 8-4 12 0 4-4 8-4 12 0 4-4 8-4 12 0 4-4 8-4 12 0M32 32v20a5 5 0 0 1-10 0"/>',
+    cactus: '<path d="M24 56V14a6 6 0 0 1 12 0v42z"/><path d="M24 40h-8a4 4 0 0 1-4-4V26M36 34h8a4 4 0 0 0 4-4V20"/>',
+    fish: '<path d="M8 32c10-14 28-14 36 0-8 14-26 14-36 0zM44 32l12-10v20z"/><circle cx="20" cy="29" r="2"/>',
+    building: '<path d="M14 56V22h16v34M30 56V8h20v48M8 56h48"/><path d="M36 16h8M36 26h8M36 36h8M20 30h4M20 40h4"/>'
   };
 
   var COLOURS = [
@@ -818,7 +1047,12 @@ window.VD = (function(){
     { id: 'autumn', name: 'Autumn Rust', price: 80, e1: '#e0852f', e2: '#a8402a' },
     { id: 'winter', name: 'Winter Frost', price: 80, e1: '#8fd0f5', e2: '#e3f3ff' },
     { id: 'halloween', name: 'Halloween', price: 80, e1: '#ff8a1f', e2: '#8b4dff' },
-    { id: 'sakura', name: 'Sakura', price: 80, e1: '#f58cb3', e2: '#f9cadb' }
+    { id: 'sakura', name: 'Sakura', price: 80, e1: '#f58cb3', e2: '#f9cadb' },
+    { id: 'lake', name: 'Lake Dawn', price: 80, e1: '#f2a2bd', e2: '#7fb0d6' },
+    { id: 'space', name: 'Deep Space', price: 80, e1: '#7b5cff', e2: '#3fd0ff' },
+    { id: 'desert', name: 'Desert Sun', price: 80, e1: '#ffb04a', e2: '#e0653a' },
+    { id: 'reef', name: 'Coral Reef', price: 80, e1: '#2fd0c4', e2: '#ff7a8a' },
+    { id: 'city', name: 'City Night', price: 80, e1: '#ffd36b', e2: '#8b6bff' }
   ];
 
   var CASES = [
@@ -830,7 +1064,12 @@ window.VD = (function(){
     { id: 'leaf', name: 'Autumn Wood', price: 150, bezel: 14, bg: 'repeating-linear-gradient(90deg,#7a4a2a 0 6px,#6c3f23 6px 7px,#7f4e2d 7px 14px)', shadow: '0 16px 36px rgba(0,0,0,.5),inset 0 0 0 1px rgba(0,0,0,.3)', chips: ['#f3d9a8'], ink: '#8a3d1a', blurb: 'Dark wood grain with falling leaves.', charms: ['leaf', 'pumpkin', 'leaf', 'leaf', 'pumpkin', 'leaf', 'leaf', 'pumpkin'] },
     { id: 'frost', name: 'Frost Edge', price: 150, bezel: 14, bg: 'linear-gradient(180deg,#e8f5fd,#a9d3ec)', shadow: '0 16px 36px rgba(0,0,0,.4),inset 0 0 0 1px rgba(58,120,168,.3)', chips: ['#ffffff'], ink: '#3a78a8', blurb: 'Icy blue with snowflakes.', charms: ['snow', 'star', 'snow', 'snow', 'star', 'snow', 'snow', 'star'] },
     { id: 'bat', name: 'Midnight Bat', price: 150, bezel: 14, bg: 'linear-gradient(180deg,#2a1a38,#150c20)', shadow: '0 16px 36px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,138,31,.35)', chips: ['#ff8a1f', '#ffb347'], ink: '#1a0f26', blurb: 'Near-black with bats and pumpkins.', charms: ['bat', 'pumpkin', 'ghost', 'bat', 'pumpkin', 'bat', 'ghost', 'bat'] },
-    { id: 'sakura', name: 'Blossom Pink', price: 150, bezel: 14, bg: 'linear-gradient(180deg,#f9d3e0,#f0a9c3)', shadow: '0 16px 36px rgba(0,0,0,.35),inset 0 0 0 1px rgba(212,84,127,.3)', chips: ['#fff4f7'], ink: '#d4547f', blurb: 'Soft pink with cherry blossoms.', charms: ['blossom', 'blossom', 'blossom', 'blossom', 'blossom', 'blossom', 'blossom', 'blossom'] }
+    { id: 'sakura', name: 'Blossom Pink', price: 150, bezel: 14, bg: 'linear-gradient(180deg,#f9d3e0,#f0a9c3)', shadow: '0 16px 36px rgba(0,0,0,.35),inset 0 0 0 1px rgba(212,84,127,.3)', chips: ['#fff4f7'], ink: '#d4547f', blurb: 'Soft pink with cherry blossoms.', charms: ['blossom', 'blossom', 'blossom', 'blossom', 'blossom', 'blossom', 'blossom', 'blossom'] },
+    { id: 'pine', name: 'Pine Trail', price: 150, bezel: 14, bg: 'linear-gradient(180deg,#cfe3d4,#7fae94)', shadow: '0 16px 36px rgba(0,0,0,.4),inset 0 0 0 1px rgba(44,90,76,.3)', chips: ['#f4fbf5'], ink: '#2c5a4c', blurb: 'Soft forest green with trail charms.', charms: ['mountain', 'tree', 'compass', 'sun', 'tree', 'mountain', 'map', 'tree'] },
+    { id: 'orbit', name: 'Orbit', price: 150, bezel: 14, bg: 'linear-gradient(180deg,#2b2d63,#10112e)', shadow: '0 16px 36px rgba(0,0,0,.6),inset 0 0 0 1px rgba(123,92,255,.4)', chips: ['#e9e4ff', '#c9e8ff'], ink: '#2b2d63', blurb: 'Deep navy with rockets and stars.', charms: ['rocket', 'stars', 'moon', 'telescope', 'stars', 'rocket', 'globe', 'stars'] },
+    { id: 'dune', name: 'Sand Dune', price: 150, bezel: 14, bg: 'linear-gradient(180deg,#f3c38a,#d98a58)', shadow: '0 16px 36px rgba(0,0,0,.4),inset 0 0 0 1px rgba(122,60,30,.3)', chips: ['#fff1dc'], ink: '#9a4a28', blurb: 'Warm clay with cacti and sun.', charms: ['cactus', 'sun', 'cactus', 'compass', 'sun', 'cactus', 'flag', 'sun'] },
+    { id: 'tide', name: 'Tide Pool', price: 150, bezel: 14, bg: 'linear-gradient(180deg,#7fd6dc,#2c8ea8)', shadow: '0 16px 36px rgba(0,0,0,.4),inset 0 0 0 1px rgba(20,80,100,.35)', chips: ['#effcfd'], ink: '#1d6f88', blurb: 'Clear blue with fish and shells.', charms: ['fish', 'shell', 'droplet', 'fish', 'bubbles', 'shell', 'fish', 'droplet'] },
+    { id: 'skyline', name: 'Skyline', price: 150, bezel: 14, bg: 'linear-gradient(180deg,#3a2578,#1a1038)', shadow: '0 16px 36px rgba(0,0,0,.6),inset 0 0 0 1px rgba(255,211,107,.35)', chips: ['#ffd36b', '#c7b0ff'], ink: '#1a1038', blurb: 'Night purple with city charms.', charms: ['building', 'moon', 'stars', 'building', 'bulb', 'moon', 'building', 'stars'] }
   ];
 
   var ICONS = [
@@ -854,7 +1093,12 @@ window.VD = (function(){
     { id: 'autumn', name: 'Autumn Harvest', price: 340, colour: 'autumn', case: 'leaf', icons: 'bold', scene: 'autumn', blurb: 'Rust colours, a wooden case and a hill of pumpkins.' },
     { id: 'winter', name: 'Winter Cabin', price: 350, colour: 'winter', case: 'frost', icons: 'stitch', scene: 'winter', blurb: 'Frosty colours, an icy case and a snowy night.' },
     { id: 'halloween', name: 'Halloween Night', price: 340, colour: 'halloween', case: 'bat', icons: 'bold', scene: 'halloween', blurb: 'Orange and violet, bat case and a moonlit pumpkin patch.' },
-    { id: 'sakura', name: 'Sakura Spring', price: 350, colour: 'sakura', case: 'sakura', icons: 'stitch', scene: 'sakura', blurb: 'Pink colours, a blossom case and a branch in bloom.' }
+    { id: 'sakura', name: 'Sakura Spring', price: 350, colour: 'sakura', case: 'sakura', icons: 'stitch', scene: 'sakura', blurb: 'Pink colours, a blossom case and a branch in bloom.' },
+    { id: 'lake', name: 'Mountain Dawn', price: 340, colour: 'lake', case: 'pine', icons: 'hair', scene: 'lake', blurb: 'Dawn colours, a pine case and a lake below snowy peaks.' },
+    { id: 'space', name: 'Deep Space', price: 360, colour: 'space', case: 'orbit', icons: 'glow', scene: 'space', blurb: 'Violet and cyan, an orbit case and a ringed planet.' },
+    { id: 'desert', name: 'Desert Sunset', price: 340, colour: 'desert', case: 'dune', icons: 'dashed', scene: 'desert', blurb: 'Sun colours, a clay case and dunes with cacti.' },
+    { id: 'reef', name: 'Coral Reef', price: 350, colour: 'reef', case: 'tide', icons: 'tint', scene: 'reef', blurb: 'Teal and coral, a tide case and a reef full of fish.' },
+    { id: 'city', name: 'City Night', price: 360, colour: 'city', case: 'skyline', icons: 'retro', scene: 'city', blurb: 'Gold and violet, a skyline case and a moonlit city.' }
   ];
 
   return { GLYPHS: GLYPHS, SCENES: SCENES, COLOURS: COLOURS, CASES: CASES, ICONS: ICONS, BUNDLES: BUNDLES };
@@ -1222,7 +1466,8 @@ window.VD = (function(){
   }
   var saveDone = persist;
   function earned(){ var t = 0; Object.keys(done).forEach(function(k){ if (byId[k]) t += POINTS[byId[k].l]; }); return t; }
-  function balance(){ return earned() - P.spent; }
+  var TEMP_BONUS = 1000000; /* TEMPORARY test points: set to 0 (or delete this line and "+ TEMP_BONUS") to remove */
+  function balance(){ return earned() + TEMP_BONUS - P.spent; }
 
   var TRACKS = [
     { src: "music.mp3", title: "Original", by: "" },
@@ -1876,12 +2121,14 @@ window.VD = (function(){
   document.addEventListener("keydown", function(e){
     if (e.key === "Escape"){
       if (modal.dataset.open === "1"){ if (mState && !mState.noCancel) closeModal(); }
+      else if (pfLocked) { /* login screen stays until the password is entered */ }
+      else if (profSheet && profSheet.dataset.open === "1") pfCloseProfile();
       else if (sheet.dataset.open === "1") closeSheet();
       else if (app.dataset.shop === "open") closeShop();
       else closeList();
       return;
     }
-    if (modal.dataset.open === "1" || sheet.dataset.open === "1" || app.dataset.list === "open" || app.dataset.shop === "open") return;
+    if (pfLocked || modal.dataset.open === "1" || sheet.dataset.open === "1" || (profSheet && profSheet.dataset.open === "1") || app.dataset.list === "open" || app.dataset.shop === "open") return;
     if (e.target && /INPUT|TEXTAREA/.test(e.target.tagName)) return;
     if (e.key === "ArrowRight" && page === 1) setPage(0);
     else if (e.key === "ArrowLeft" && page === 0) setPage(1);
@@ -1893,12 +2140,16 @@ window.VD = (function(){
   /* ---------- confirm dialog ---------- */
   var mInput = $("mInput"), mOk = $("mOk"), mState = null;
   function norm(s){ return String(s).toLowerCase().replace(/[^a-z0-9 ]+/g, " ").replace(/\s+/g, " ").trim(); }
+  var authEl = null, profSheet = null;
   function syncInert(){
     var m = modal.dataset.open === "1", sh = sheet.dataset.open === "1", sp = app.dataset.shop === "open", lo = app.dataset.list === "open";
-    pager.inert = m || sh || sp || lo;
-    list.inert = !lo || m || sh;
-    shop.inert = !sp || m || sh;
-    sheet.inert = m;
+    var pr = !!(profSheet && profSheet.dataset.open === "1"), lk = !!pfLocked;
+    pager.inert = m || sh || sp || lo || pr || lk;
+    list.inert = !lo || m || sh || pr || lk;
+    shop.inert = !sp || m || sh || pr || lk;
+    sheet.inert = m || lk;
+    if (profSheet) profSheet.inert = m || lk;
+    if (authEl) authEl.inert = m;
   }
   function checkPhrase(){
     var need = mState && mState.phrase, ok = !need || norm(mInput.value) === norm(mState.phrase);
@@ -1926,12 +2177,299 @@ window.VD = (function(){
   $("mCancel").addEventListener("click", closeModal);
   $("mScrim").addEventListener("click", function(){ if (mState && !mState.noCancel) closeModal(); });
 
+  /* ---------- profile: login, nickname, photo, password (saved in this browser) ---------- */
+  var PF_KEY = "achv-vault-profile", PF_SESSION = "achv-vault-unlocked";
+  var PF_COLS = ["#62dcc0", "#76acff", "#b895ff", "#ff80c9", "#f0c04a", "#ff9a5c", "#43e08f", "#9aa1b8"];
+  var PF_COL_NAMES = ["Mint", "Blue", "Violet", "Pink", "Gold", "Orange", "Green", "Grey"];
+  var pf = null, pfLocked = true, pfWarned = false, pfFails = 0, pfWaitUntil = 0, pfBusy = false, pfDraft = { color: PF_COLS[0], pic: "" };
+  authEl = $("auth"); profSheet = $("profSheet");
+
+  function pfLoad(){
+    try {
+      var raw = localStorage.getItem(PF_KEY);
+      if (!raw) return null;
+      var o = JSON.parse(raw);
+      if (!o || typeof o.nick !== "string" || typeof o.hash !== "string" || typeof o.salt !== "string") return null;
+      o.color = PF_COLS.indexOf(o.color) >= 0 ? o.color : PF_COLS[0];
+      o.pic = typeof o.pic === "string" && o.pic.indexOf("data:image/") === 0 ? o.pic : "";
+      o.alg = o.alg === "pbkdf2" ? "pbkdf2" : "fnv";
+      o.stay = !!o.stay;
+      return o;
+    } catch(e){ return null; }
+  }
+  function pfSave(){
+    try {
+      if (!pf) localStorage.removeItem(PF_KEY); else localStorage.setItem(PF_KEY, JSON.stringify(pf));
+      return true;
+    } catch(e){
+      if (!pfWarned){ pfWarned = true; toast("This browser blocked saving, so your profile may not stay after you close the page."); }
+      return false;
+    }
+  }
+  function pfHex(buf){ var u = new Uint8Array(buf), s = ""; for (var i = 0; i < u.length; i++) s += (u[i] < 16 ? "0" : "") + u[i].toString(16); return s; }
+  function pfSalt(){
+    var u = new Uint8Array(16);
+    try { crypto.getRandomValues(u); } catch(e){ for (var i = 0; i < 16; i++) u[i] = Math.floor(Math.random() * 256); }
+    return pfHex(u.buffer);
+  }
+  function pfAlg(){ return (window.crypto && crypto.subtle && window.TextEncoder) ? "pbkdf2" : "fnv"; }
+  function pfHash(pw, salt, alg){
+    if (alg === "pbkdf2" && window.crypto && crypto.subtle && window.TextEncoder){
+      var enc = new TextEncoder();
+      return crypto.subtle.importKey("raw", enc.encode(pw), "PBKDF2", false, ["deriveBits"]).then(function(k){
+        return crypto.subtle.deriveBits({ name: "PBKDF2", salt: enc.encode(salt), iterations: 120000, hash: "SHA-256" }, k, 256);
+      }).then(pfHex);
+    }
+    var a = 2166136261, b = 5381, str = "pf|" + salt + "|" + pw;
+    for (var r = 0; r < 64; r++) for (var i = 0; i < str.length; i++){ a ^= str.charCodeAt(i); a = Math.imul(a, 16777619); b = Math.imul(b ^ a, 33) + r; }
+    return Promise.resolve((a >>> 0).toString(36) + "-" + (b >>> 0).toString(36));
+  }
+  function pfFill(el, p){
+    el.textContent = "";
+    if (p && p.pic){
+      var im = document.createElement("img"); im.alt = ""; im.src = p.pic;
+      el.style.background = "var(--chip-bg)"; el.appendChild(im);
+    } else {
+      var first = p && p.nick ? Array.from(p.nick)[0] : "?";
+      el.textContent = String(first).toUpperCase();
+      el.style.background = (p && p.color) || PF_COLS[0];
+    }
+  }
+  function pfClean(v){ return String(v).replace(/\s+/g, " ").trim(); }
+  function pfNickErr(v){ var n = Array.from(v).length; if (n < 2) return "Nickname needs at least 2 characters."; if (n > 16) return "Nickname can be up to 16 characters."; return ""; }
+  function pfPassErr(v){ if (v.length < 4) return "Password needs at least 4 characters."; if (v.length > 64) return "Password can be up to 64 characters."; return ""; }
+  function pfPhoto(file, cb){
+    if (!file || !/^image\//.test(file.type)){ cb("That file is not an image."); return; }
+    if (file.size > 12 * 1024 * 1024){ cb("Choose a photo under 12 MB."); return; }
+    var fr = new FileReader();
+    fr.onerror = function(){ cb("Could not read that photo."); };
+    fr.onload = function(){
+      var im = new Image();
+      im.onerror = function(){ cb("Could not open that photo."); };
+      im.onload = function(){
+        var w = im.naturalWidth, h = im.naturalHeight, s = Math.min(w, h);
+        if (!s){ cb("Could not open that photo."); return; }
+        var c = document.createElement("canvas"); c.width = c.height = 192;
+        var x = c.getContext("2d"); x.fillStyle = "#ffffff"; x.fillRect(0, 0, 192, 192);
+        x.drawImage(im, (w - s) / 2, (h - s) / 2, s, s, 0, 0, 192, 192);
+        var url = ""; try { url = c.toDataURL("image/jpeg", 0.86); } catch(e){}
+        if (url) cb(null, url); else cb("Could not use that photo.");
+      };
+      im.src = fr.result;
+    };
+    fr.readAsDataURL(file);
+  }
+  function pfBuildCols(host, cur, onPick){
+    host.textContent = "";
+    PF_COLS.forEach(function(c, i){
+      var b = document.createElement("button");
+      b.type = "button"; b.className = "pf-col"; b.style.background = c; b.dataset.c = c;
+      b.setAttribute("role", "radio"); b.setAttribute("aria-label", PF_COL_NAMES[i]); b.setAttribute("aria-checked", c === cur ? "true" : "false");
+      b.addEventListener("click", function(){
+        Array.prototype.forEach.call(host.children, function(x){ x.setAttribute("aria-checked", x.dataset.c === c ? "true" : "false"); });
+        onPick(c);
+      });
+      host.appendChild(b);
+    });
+  }
+  function pfPaintHome(){
+    if (!pf) return;
+    var b = $("avBtn");
+    pfFill(b, pf);
+    b.setAttribute("aria-label", "Open profile for " + pf.nick);
+  }
+
+  /* login / create screen */
+  function pfDrawDraft(){
+    pfFill($("authAv"), { nick: pfClean($("authNick").value), color: pfDraft.color, pic: pfDraft.pic });
+    $("authPhotoX").hidden = !pfDraft.pic;
+    $("authPhoto").textContent = pfDraft.pic ? "Change photo" : "Add photo";
+  }
+  function pfAuthMode(mode){
+    var login = mode === "login";
+    authEl.dataset.mode = mode;
+    $("authTitle").textContent = login ? "Welcome back, " + pf.nick : "Create your profile";
+    $("authSub").textContent = login ? "Enter your password to continue." : "Pick a nickname, a photo and a password. They are saved on this device.";
+    $("authPass").autocomplete = login ? "current-password" : "new-password";
+    $("authPass").placeholder = login ? "Your password" : "At least 4 characters";
+    $("authGo").textContent = login ? "Log in" : "Create profile";
+    $("authPass").value = ""; $("authPass2").value = ""; $("authMsg").textContent = "";
+    $("authStay").setAttribute("aria-checked", login && pf.stay ? "true" : "false");
+    if (login){ pfFill($("authAv"), pf); }
+    else {
+      pfDraft = { color: PF_COLS[0], pic: "" };
+      $("authNick").value = "";
+      pfBuildCols($("authCols"), pfDraft.color, function(c){ pfDraft.color = c; pfDrawDraft(); });
+      pfDrawDraft();
+    }
+  }
+  app.addEventListener("scroll", function(){ if (app.scrollLeft || app.scrollTop){ app.scrollLeft = 0; app.scrollTop = 0; } });
+  function pfShowAuth(mode){
+    pfLocked = true; authEl.hidden = false; syncInert();
+    pfAuthMode(mode);
+    if (mode === "login") setTimeout(function(){ $("authPass").focus({ preventScroll: true }); }, 120);
+  }
+  function pfUnlock(stay){
+    pfLocked = false; authEl.hidden = true;
+    $("authPass").value = ""; $("authPass2").value = "";
+    try { sessionStorage.setItem(PF_SESSION, "1"); } catch(e){}
+    if (pf.stay !== !!stay){ pf.stay = !!stay; pfSave(); }
+    syncInert(); pfPaintHome();
+  }
+  function pfForget(){ try { sessionStorage.removeItem(PF_SESSION); } catch(e){} }
+
+  $("authStay").addEventListener("click", function(){ var b = $("authStay"); b.setAttribute("aria-checked", b.getAttribute("aria-checked") === "true" ? "false" : "true"); });
+  $("authNick").addEventListener("input", pfDrawDraft);
+  $("authPhoto").addEventListener("click", function(){ $("authFile").click(); });
+  $("authPhotoX").addEventListener("click", function(){ pfDraft.pic = ""; pfDrawDraft(); });
+  $("authFile").addEventListener("change", function(e){
+    var f = e.target.files && e.target.files[0]; e.target.value = "";
+    if (!f) return;
+    pfPhoto(f, function(err, url){
+      if (err){ $("authMsg").textContent = err; return; }
+      $("authMsg").textContent = ""; pfDraft.pic = url; pfDrawDraft();
+    });
+  });
+  $("authForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    if (pfBusy) return;
+    var msg = $("authMsg"), pass = $("authPass").value, stay = $("authStay").getAttribute("aria-checked") === "true";
+    msg.textContent = "";
+    if (authEl.dataset.mode === "create"){
+      var nick = pfClean($("authNick").value), err = pfNickErr(nick) || pfPassErr(pass);
+      if (!err && pass !== $("authPass2").value) err = "The two passwords do not match.";
+      if (err){ msg.textContent = err; return; }
+      pfBusy = true;
+      var salt = pfSalt(), alg = pfAlg();
+      pfHash(pass, salt, alg).then(function(h){
+        pf = { v: 1, nick: nick, color: pfDraft.color, pic: pfDraft.pic, salt: salt, alg: alg, hash: h, stay: stay, created: Date.now() };
+        pfSave(); pfUnlock(stay); toast("Welcome, " + nick + ". Your profile is saved.");
+      }).catch(function(){ msg.textContent = "Could not create the profile. Try again."; }).then(function(){ pfBusy = false; });
+    } else {
+      var now = Date.now();
+      if (now < pfWaitUntil){ msg.textContent = "Too many tries. Wait " + Math.ceil((pfWaitUntil - now) / 1000) + " seconds."; return; }
+      if (!pass){ msg.textContent = "Enter your password."; return; }
+      pfBusy = true;
+      pfHash(pass, pf.salt, pf.alg).then(function(h){
+        if (h === pf.hash){ pfFails = 0; pfUnlock(stay); return; }
+        pfFails++;
+        if (pfFails >= 5){ pfFails = 0; pfWaitUntil = Date.now() + 20000; msg.textContent = "Too many tries. Wait 20 seconds."; }
+        else msg.textContent = "That password is not right.";
+        $("authPass").select();
+      }).catch(function(){ msg.textContent = "Could not check the password. Try again."; }).then(function(){ pfBusy = false; });
+    }
+  });
+  $("authForgot").addEventListener("click", function(){
+    askConfirm({
+      title: "Reset your profile?",
+      body: "This removes your nickname, photo and password from this device so you can make a new profile. Your quests, points and shop items are not touched.",
+      phrase: "reset my profile", ok: "Reset profile", danger: true,
+      onOk: function(){ pf = null; pfSave(); pfForget(); pfShowAuth("create"); toast("Profile reset. Make a new one to continue."); }
+    });
+  });
+
+  /* profile sheet */
+  var pfNickTimer = null;
+  function pfSetMsg(id, text, ok){ var m = $(id); m.dataset.ok = ok ? "1" : "0"; m.textContent = text; }
+  function pfPaintProfile(){
+    pfFill($("profAv"), pf);
+    $("profPhotoX").hidden = !pf.pic;
+    $("profPhoto").textContent = pf.pic ? "Change photo" : "Add photo";
+    pfBuildCols($("profCols"), pf.color, function(c){ pf.color = c; pfSave(); pfFill($("profAv"), pf); pfPaintHome(); });
+    $("profNick").value = pf.nick; pfSetMsg("profNickMsg", "", false);
+    $("profPassCur").value = ""; $("profPassNew").value = ""; $("profPassNew2").value = ""; pfSetMsg("profPassMsg", "", false);
+    $("profStay").setAttribute("aria-checked", pf.stay ? "true" : "false");
+  }
+  function pfNickCommit(){
+    clearTimeout(pfNickTimer);
+    if (!pf) return;
+    var v = pfClean($("profNick").value), err = pfNickErr(v);
+    if (err){ pfSetMsg("profNickMsg", err, false); return; }
+    if (v !== pf.nick){ pf.nick = v; pfSave(); pfFill($("profAv"), pf); pfPaintHome(); pfSetMsg("profNickMsg", "Saved", true); }
+  }
+  function pfOpenProfile(){
+    if (!pf || pfLocked) return;
+    profSheet.dataset.open = "1"; profSheet.removeAttribute("aria-hidden");
+    syncInert(); pfPaintProfile();
+    setTimeout(function(){ $("profClose").focus({ preventScroll: true }); }, 80);
+  }
+  function pfHideProfile(){
+    pfNickCommit();
+    profSheet.dataset.open = "0"; profSheet.setAttribute("aria-hidden", "true");
+    syncInert();
+  }
+  function pfCloseProfile(){
+    if (profSheet.dataset.open !== "1") return;
+    pfHideProfile(); $("avBtn").focus({ preventScroll: true });
+  }
+  $("avBtn").addEventListener("click", pfOpenProfile);
+  $("profClose").addEventListener("click", pfCloseProfile);
+  $("profScrim").addEventListener("click", pfCloseProfile);
+  $("profNick").addEventListener("input", function(){ clearTimeout(pfNickTimer); pfSetMsg("profNickMsg", "", false); pfNickTimer = setTimeout(pfNickCommit, 400); });
+  $("profNick").addEventListener("blur", pfNickCommit);
+  $("profPhoto").addEventListener("click", function(){ $("profFile").click(); });
+  $("profPhotoX").addEventListener("click", function(){
+    pf.pic = ""; pfSave(); pfFill($("profAv"), pf); pfPaintHome();
+    $("profPhotoX").hidden = true; $("profPhoto").textContent = "Add photo";
+  });
+  $("profFile").addEventListener("change", function(e){
+    var f = e.target.files && e.target.files[0]; e.target.value = "";
+    if (!f) return;
+    pfPhoto(f, function(err, url){
+      if (err){ toast(err); return; }
+      pf.pic = url; pfSave(); pfFill($("profAv"), pf); pfPaintHome();
+      $("profPhotoX").hidden = false; $("profPhoto").textContent = "Change photo";
+    });
+  });
+  $("profStay").addEventListener("click", function(){
+    pf.stay = !pf.stay; pfSave(); $("profStay").setAttribute("aria-checked", pf.stay ? "true" : "false");
+  });
+  $("profPassForm").addEventListener("submit", function(e){
+    e.preventDefault();
+    if (pfBusy) return;
+    var cur = $("profPassCur").value, nw = $("profPassNew").value;
+    pfSetMsg("profPassMsg", "", false);
+    if (!cur){ pfSetMsg("profPassMsg", "Enter your current password.", false); return; }
+    var err = pfPassErr(nw);
+    if (!err && nw !== $("profPassNew2").value) err = "The new passwords do not match.";
+    if (err){ pfSetMsg("profPassMsg", err, false); return; }
+    pfBusy = true;
+    pfHash(cur, pf.salt, pf.alg).then(function(h){
+      if (h !== pf.hash){ pfSetMsg("profPassMsg", "Your current password is not right.", false); return; }
+      var salt = pfSalt(), alg = pfAlg();
+      return pfHash(nw, salt, alg).then(function(nh){
+        pf.salt = salt; pf.alg = alg; pf.hash = nh; pfSave();
+        $("profPassCur").value = ""; $("profPassNew").value = ""; $("profPassNew2").value = "";
+        pfSetMsg("profPassMsg", "Password updated.", true);
+      });
+    }).catch(function(){ pfSetMsg("profPassMsg", "Could not change the password. Try again.", false); }).then(function(){ pfBusy = false; });
+  });
+  $("profLogout").addEventListener("click", function(){
+    pf.stay = false; pfSave(); pfForget(); pfHideProfile(); pfShowAuth("login");
+  });
+  $("profDelete").addEventListener("click", function(){
+    askConfirm({
+      title: "Delete your profile?",
+      body: "This removes your nickname, photo and password from this device. Your quests, points and shop items are not touched.",
+      phrase: "delete my profile", ok: "Delete profile", danger: true,
+      onOk: function(){ pf = null; pfSave(); pfForget(); pfHideProfile(); pfShowAuth("create"); toast("Profile deleted. Make a new one to continue."); }
+    });
+  });
+
+  (function pfInit(){
+    pf = pfLoad();
+    var ok = false;
+    if (pf){ try { ok = pf.stay || sessionStorage.getItem(PF_SESSION) === "1"; } catch(e){ ok = pf.stay; } }
+    if (pf && ok){ pfLocked = false; authEl.hidden = true; pfPaintHome(); syncInert(); }
+    else pfShowAuth(pf ? "login" : "create");
+  })();
+
   /* ---------- look: colours, cases, icons, scenes ---------- */
   var rootEl = document.documentElement;
   var LIST = { bundles: VD.BUNDLES, colours: VD.COLOURS, cases: VD.CASES, icons: VD.ICONS, scenes: VD.SCENES };
   var SLOT = { colours: "colour", cases: "case", icons: "icons", scenes: "scene" };
   var PRE = { colours: "col", cases: "cas", icons: "ico", scenes: "scn", bundles: "bun" };
-  var RIM = { beach: "#e6bf84", eggs: "#f7c9dc", leaf: "#7a4a2a", frost: "#a9d3ec", bat: "#2a1a38", sakura: "#f0a9c3" };
+  var RIM = { beach: "#e6bf84", eggs: "#f7c9dc", leaf: "#7a4a2a", frost: "#a9d3ec", bat: "#2a1a38", sakura: "#f0a9c3", pine: "#7fae94", orbit: "#2b2d63", dune: "#e5a46d", tide: "#4fb0c4", skyline: "#3a2578" };
   var SLOTS = [[0, 25], [0, 50], [0, 75], [100, 25], [100, 50], [100, 75], [22, 100], [78, 100]];
   function find(list, id){ for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i]; return list[0]; }
   function oid(kind, it){ return PRE[kind] + ":" + it.id; }
@@ -2043,7 +2581,7 @@ window.VD = (function(){
     if (kind === "bundles"){ own("col:" + it.colour); own("cas:" + it["case"]); own("ico:" + it.icons); own("scn:" + it.scene); }
     persist(); refresh(); renderShop(); rateHint = 1.35; toast("Unlocked " + it.name + ". Tap Equip to use it.");
   }
-  var SCENE_TONE = { summer: "light", easter: "light", sakura: "light", autumn: "light", winter: "dark", halloween: "dark" };
+  var SCENE_TONE = { summer: "light", easter: "light", sakura: "light", autumn: "light", winter: "dark", halloween: "dark", lake: "light", desert: "light", space: "dark", reef: "dark", city: "dark" };
   function equipItem(kind, it){
     if (kind === "bundles") P.eq = { colour: it.colour, "case": it["case"], icons: it.icons, scene: it.scene };
     else P.eq[SLOT[kind]] = it.id;
