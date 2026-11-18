@@ -212,8 +212,11 @@ h1,h2,h3,p{margin:0}
 .lvrow .pbar{flex:1;height:6px}
 .lvxp{font-size:11px;font-weight:700;color:var(--muted);font-variant-numeric:tabular-nums;white-space:nowrap}
 .daily{display:flex;flex-direction:column;gap:7px;flex:none}
-.dhead{margin:0;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.dhead{margin:0;display:flex;justify-content:space-between;align-items:baseline;gap:10px;font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);font-weight:700}
+.dcount{letter-spacing:.06em;font-variant-numeric:tabular-nums;text-transform:none;font-size:11.5px}
+.dcount[data-all="1"]{color:var(--ok)}
 .drow{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px}
+.drow[data-n="4"]{grid-template-columns:repeat(2,minmax(0,1fr))}
 .dpick{--rad:14px;--r1:var(--h);padding:8px 9px 8px 11px;text-align:left;display:flex;flex-direction:column;gap:3px;min-height:50px;color:var(--fg);font:inherit}
 .dpick .dl{font-size:9.5px;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:var(--h)}
 .dpick .dt{font-size:11.5px;font-weight:800;line-height:1.2;overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical}
@@ -517,6 +520,22 @@ button.ptschip:active{transform:scale(.94)}
 .auth[data-mode="login"] .pf-create{display:none}
 .auth[data-mode="create"] .pf-login{display:none}
 .pf-create.pf-photo-row{display:flex;flex-direction:column;align-items:center;gap:14px}
+/* small screens: fit the avatar in the top bar and the 4-goal day on short phones */
+@media (max-width:380px){
+  .bar-r{gap:6px}
+  .avbtn{--s:36px}
+  .gear{width:36px;height:36px}
+  .ptschip{padding:9px 9px 9px 8px;gap:5px}
+}
+#s1[data-goals="4"] .hero .hero-card{height:228px}
+#s1[data-goals="4"] .grid{grid-template-rows:repeat(3,minmax(44px,1fr));gap:8px}
+@media (max-height:740px){
+  #s1[data-goals="4"] .hero .hero-card{height:180px}
+  .grid{grid-template-rows:repeat(3,minmax(44px,1fr));gap:8px}
+  .dpick{min-height:46px;padding-block:6px}
+  .drow{gap:6px}
+  .screen{gap:8px}
+}
 </style>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false"><defs id="sprite"></defs></svg>
@@ -540,7 +559,7 @@ button.ptschip:active{transform:scale(.94)}
           <div class="lvrow" id="lvrow"><span class="lvbadge">Level <b id="lvNum">1</b></span><div class="pbar"><b id="lvBar"></b></div><span class="lvxp" id="lvXp"></span></div>
           <div id="hero" class="hero"></div>
           <div class="grid" id="grid" role="group" aria-label="Featured quests"></div>
-          <div class="daily"><p class="dhead">Today's picks</p><div class="drow" id="drow"></div></div>
+          <div class="daily"><div class="dhead"><span>Today's picks</span><span class="dcount" id="dcount"></span></div><div class="drow" id="drow" data-n="3"></div></div>
           <div class="hint">
             <button type="button" id="toFolders">
               Swipe left for folders
@@ -632,7 +651,7 @@ button.ptschip:active{transform:scale(.94)}
             <input class="pf-file" id="authFile" type="file" accept="image/*" tabindex="-1" aria-hidden="true">
             <div class="pf-cols" id="authCols" role="radiogroup" aria-label="Avatar colour"></div>
           </div>
-          <div class="pf-field pf-create"><label for="authNick">Nickname</label><input class="pf-in" id="authNick" type="text" maxlength="16" autocomplete="nickname" spellcheck="false" placeholder="2 to 16 characters"></div>
+          <div class="pf-field"><label for="authNick">Nickname</label><input class="pf-in" id="authNick" type="text" maxlength="16" autocomplete="username" autocapitalize="off" spellcheck="false" placeholder="2 to 16 characters"></div>
           <div class="pf-field"><label for="authPass">Password</label><input class="pf-in" id="authPass" type="password" autocomplete="current-password" placeholder="Your password"></div>
           <div class="pf-field pf-create"><label for="authPass2">Repeat password</label><input class="pf-in" id="authPass2" type="password" autocomplete="new-password" placeholder="Type it again"></div>
           <div class="row"><div class="lab">Stay logged in<small>On this device only</small></div><button class="switch" id="authStay" type="button" role="switch" aria-checked="false" aria-label="Stay logged in"></button></div>
@@ -1466,8 +1485,7 @@ window.VD = (function(){
   }
   var saveDone = persist;
   function earned(){ var t = 0; Object.keys(done).forEach(function(k){ if (byId[k]) t += POINTS[byId[k].l]; }); return t; }
-  var TEMP_BONUS = 1000000; /* TEMPORARY test points: set to 0 (or delete this line and "+ TEMP_BONUS") to remove */
-  function balance(){ return earned() + TEMP_BONUS - P.spent; }
+  function balance(){ return earned() - P.spent; }
 
   var TRACKS = [
     { src: "music.mp3", title: "Original", by: "" },
@@ -1709,10 +1727,16 @@ window.VD = (function(){
   function buildDaily(){
     var key = dailyKey(); dailyShown = key; dailyItems = [];
     var row = $("drow"); row.innerHTML = "";
-    ["easy", "medium", "hard"].forEach(function(l){
-      var pool = items.filter(function(i){ return i.l === l; }), r = rng(hash(key + "|" + l));
+    /* every day: 1 or 2 easy (random), 1 medium, 1 hard. Same all day, new mix at midnight. */
+    var nEasy = hash(key + "|how-many-easy") % 2 + 1;
+    var plan = [];
+    for (var e = 0; e < nEasy; e++) plan.push("easy");
+    plan.push("medium", "hard");
+    var used = {};
+    plan.forEach(function(l, n){
+      var pool = items.filter(function(i){ return i.l === l && !used[i.id]; }), r = rng(hash(key + "|" + l + "|" + n));
       var it = pool[Math.floor(r() * pool.length) % pool.length];
-      dailyItems.push(it);
+      used[it.id] = 1; dailyItems.push(it);
       var b = document.createElement("button");
       b.type = "button"; b.className = "glass dpick"; b.dataset.lvl = l; b.dataset.id = it.id; b.style.setProperty("--i", dailyItems.length);
       b.innerHTML = '<span class="dl"></span><span class="dt"></span>';
@@ -1721,6 +1745,7 @@ window.VD = (function(){
       b.addEventListener("click", function(){ showItem(it, -1); });
       row.appendChild(b);
     });
+    row.dataset.n = String(plan.length); $("s1").dataset.goals = String(plan.length);
   }
   function showItem(it, idx){
     current = idx; heroId = it.id;
@@ -1926,15 +1951,23 @@ window.VD = (function(){
   setInterval(tick, 1000);
   window.addEventListener("pagehide", persist);
   var REDUCED = window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches;
+  function fmtPts(n){
+    n = Math.round(n);
+    if (n >= 1000000) return (Math.round(n / 100000) / 10) + "M";
+    if (n >= 100000) return Math.round(n / 1000) + "K";
+    return String(n);
+  }
   function tween(el, to){
     var from = el._v === undefined ? to : el._v; el._v = to;
+    var pts = el.classList.contains("ptsv"), fmt = pts ? fmtPts : String;
+    if (pts && el.parentNode) el.parentNode.title = to + " points";
     if (el._raf) cancelAnimationFrame(el._raf);
-    if (from === to || REDUCED){ el.textContent = to; return; }
+    if (from === to || REDUCED){ el.textContent = fmt(to); return; }
     var t0 = performance.now();
     (function step(t){
       var k = Math.min(1, (t - t0) / 550), e = 1 - Math.pow(1 - k, 3);
-      el.textContent = Math.round(from + (to - from) * e);
-      if (k < 1) el._raf = requestAnimationFrame(step); else el.textContent = to;
+      el.textContent = fmt(from + (to - from) * e);
+      if (k < 1) el._raf = requestAnimationFrame(step); else el.textContent = fmt(to);
     })(t0);
   }
   function smooth(fn){
@@ -1958,6 +1991,9 @@ window.VD = (function(){
       b.classList.toggle("done", done[it.id] !== undefined);
       b.setAttribute("aria-pressed", heroId === it.id && current === -1 ? "true" : "false");
     });
+    var dn = dailyItems.filter(function(it){ return done[it.id] !== undefined; }).length;
+    $("dcount").textContent = dn === dailyItems.length && dn ? "All done today" : dn + "/" + dailyItems.length + " done";
+    $("dcount").dataset.all = dn === dailyItems.length && dn ? "1" : "0";
     Array.prototype.forEach.call($("results").querySelectorAll(".acard"), paintCard);
     Array.prototype.forEach.call(grid.children, function(t, idx){
       t.classList.toggle("done", done[featured[idx].id] !== undefined);
@@ -2281,6 +2317,7 @@ window.VD = (function(){
 
   /* login / create screen */
   function pfDrawDraft(){
+    if (authEl.dataset.mode !== "create") return;
     pfFill($("authAv"), { nick: pfClean($("authNick").value), color: pfDraft.color, pic: pfDraft.pic });
     $("authPhotoX").hidden = !pfDraft.pic;
     $("authPhoto").textContent = pfDraft.pic ? "Change photo" : "Add photo";
@@ -2288,17 +2325,18 @@ window.VD = (function(){
   function pfAuthMode(mode){
     var login = mode === "login";
     authEl.dataset.mode = mode;
-    $("authTitle").textContent = login ? "Welcome back, " + pf.nick : "Create your profile";
-    $("authSub").textContent = login ? "Enter your password to continue." : "Pick a nickname, a photo and a password. They are saved on this device.";
+    $("authTitle").textContent = login ? "Log in" : "Create your profile";
+    $("authSub").textContent = login ? "Enter your nickname and password to continue." : "Pick a nickname, a photo and a password. They are saved on this device.";
+    $("authNick").placeholder = login ? "Your nickname" : "2 to 16 characters";
     $("authPass").autocomplete = login ? "current-password" : "new-password";
     $("authPass").placeholder = login ? "Your password" : "At least 4 characters";
     $("authGo").textContent = login ? "Log in" : "Create profile";
     $("authPass").value = ""; $("authPass2").value = ""; $("authMsg").textContent = "";
     $("authStay").setAttribute("aria-checked", login && pf.stay ? "true" : "false");
-    if (login){ pfFill($("authAv"), pf); }
+    $("authNick").value = "";
+    if (login){ pfFill($("authAv"), { nick: "?", color: PF_COLS[7], pic: "" }); }
     else {
       pfDraft = { color: PF_COLS[0], pic: "" };
-      $("authNick").value = "";
       pfBuildCols($("authCols"), pfDraft.color, function(c){ pfDraft.color = c; pfDrawDraft(); });
       pfDrawDraft();
     }
@@ -2307,7 +2345,7 @@ window.VD = (function(){
   function pfShowAuth(mode){
     pfLocked = true; authEl.hidden = false; syncInert();
     pfAuthMode(mode);
-    if (mode === "login") setTimeout(function(){ $("authPass").focus({ preventScroll: true }); }, 120);
+    if (mode === "login") setTimeout(function(){ $("authNick").focus({ preventScroll: true }); }, 120);
   }
   function pfUnlock(stay){
     pfLocked = false; authEl.hidden = true;
@@ -2348,13 +2386,14 @@ window.VD = (function(){
     } else {
       var now = Date.now();
       if (now < pfWaitUntil){ msg.textContent = "Too many tries. Wait " + Math.ceil((pfWaitUntil - now) / 1000) + " seconds."; return; }
-      if (!pass){ msg.textContent = "Enter your password."; return; }
+      var typed = pfClean($("authNick").value);
+      if (!typed || !pass){ msg.textContent = "Enter your nickname and password."; return; }
       pfBusy = true;
       pfHash(pass, pf.salt, pf.alg).then(function(h){
-        if (h === pf.hash){ pfFails = 0; pfUnlock(stay); return; }
+        if (h === pf.hash && typed.toLowerCase() === pf.nick.toLowerCase()){ pfFails = 0; pfUnlock(stay); return; }
         pfFails++;
         if (pfFails >= 5){ pfFails = 0; pfWaitUntil = Date.now() + 20000; msg.textContent = "Too many tries. Wait 20 seconds."; }
-        else msg.textContent = "That password is not right.";
+        else msg.textContent = "Nickname or password is not right.";
         $("authPass").select();
       }).catch(function(){ msg.textContent = "Could not check the password. Try again."; }).then(function(){ pfBusy = false; });
     }
